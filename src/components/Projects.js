@@ -37,9 +37,9 @@ function Projects(){
                 <div className="btns">
                     {
                         showMenu && projects.length > 0 &&
-                        <spa className='edit' onClick={() => setEdit(edit => !edit)}>
+                        <span className='edit' onClick={() => setEdit(edit => !edit)}>
                             <PencilFill size="15" color={pencilColor}/>
-                        </spa>
+                        </span>
                     }
                     <AddNewProject />
                     <span className='arrow'>
