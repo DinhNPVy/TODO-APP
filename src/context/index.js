@@ -1,6 +1,6 @@
 import React, {createContext, useState} from 'react'
 
-const TodoConext = createContext()
+const TodoContext = createContext()
 
 function TodoContextProvider({children}) {
     const defaultProject = 'today'
@@ -19,4 +19,4 @@ function TodoContextProvider({children}) {
        </TodoContext.Provider>
     )
 }
-export {TodoContextProvider, TodoConext}
+export {TodoContextProvider, TodoContext}
