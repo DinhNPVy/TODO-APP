@@ -1,19 +1,43 @@
-import React, {useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import Modal from './Modal'
-import { Bell, CalendarDay, Clock, Palette, X } from 'react-bootstrap-icons';
-import DateTimePicker from "@mui/lab/DateTimePicker";
-import DateFNSUtils from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import { TextField } from "@material-ui/core";
-
+import TodoForm from './TodoForm'
+import { TodoContext } from '../context'
 
 
 
 
 function AddNewTodo(){
+    const {selectedProject} = useContext(TodoContext)
+
     const [showModal, setShowModal] = useState(false)
     const [text, setText] = useState('')
     const [value, setValue] = useState(new Date());
+    const [todoProject, setTodoProject] = useState(selectedProject)
+
+    const projects = [
+        { 
+            id : 1,
+            name : "personal",
+            numOfTodos : 0 
+        },
+        { 
+            id : 2, 
+            name : "work", 
+            numOfTodos : 1 
+        },
+        { 
+            id : 3, 
+            name : "other", 
+            numOfTodos : 2 
+        }
+    ]
+    function handleSubmit(e){
+
+    }
+    
+    useEffect( () => {
+        setTodoProject(selectedProject)
+    }, [selectedProject])
 
     return (
         <div className='AddNewTodo'>
@@ -24,67 +48,19 @@ function AddNewTodo(){
             </div>
             <Modal showModal={showModal} setShowModal={setShowModal}>
                 
-            <LocalizationProvider dateAdapter={DateFNSUtils}>
-                    <form>
-                        <div className="text">
-                            <h3>Add new to do!</h3>
-                            <input
-                                type='text'
-                                value={text}
-                                onChange={e => setText(e.target.value)}
-                                placeholder='To do ...'
-                                autoFocus
-                            />
-                        </div>
-                        <div className="remind">
-                            <Bell />
-                            <p>Remind Me!</p>
-                        </div>
-                        <div className="pick-day">
-                            <div className="title">
-                                <CalendarDay />
-                                <p>Choose a day</p>
-                                <Clock />
-                                <p>Choose time</p>
-                                <DateTimePicker
-                                value={value}
-                                onChange={(newValue) => {
-                                    console.log(newValue.toUTCString());
-                                    setValue(newValue);
-                                }}
-                                renderInput={(startProps) => (
-                                    <React.Fragment>
-                                    <TextField {...startProps} />
-                                    </React.Fragment>
-                                )}
-                                />
-                            </div>
-                        </div>
-                        <div className="pick-project">
-                            <div className="title">
-                                <Palette />
-                                <p>Choose a project</p>
-                            </div>
-                            <div className="projects">
-                                <div className="project active">
-                                    personal
-                                </div>
-                                <div className="project">
-                                    work
-                                </div>
-                                <div className="project">
-                                    work
-                                </div>
-                            </div>
-                        </div>
-                        <div className="cancel" onClick={() => setShowModal(false)}>
-                            <X size='40' />
-                        </div>
-                        <div className="confirm">
-                            <button>+ Add to do</button>
-                        </div>
-                    </form>
-                </LocalizationProvider>
+                <TodoForm
+                    handleSubmit={handleSubmit}
+                    heading='Add new to do!'
+                    text={text}
+                    setText={setText}
+                    value={value}
+                    setValue={setValue}
+                    todoProject={todoProject}
+                    setTodoProject={setTodoProject}
+                    projects={projects}
+                    showButtons={true}
+                    setShowModal={setShowModal}
+                />
            
              </Modal>
          </div>
