@@ -5,6 +5,7 @@ export function useTodos() {
     const [todos, setTodos] = useState([])
 
     useEffect(() => {
+        //console.log('Effect called')
         let unsubscribe = firebase
         .firestore()
         .collection('todos')
@@ -19,7 +20,7 @@ export function useTodos() {
         })
 
         return () => unsubscribe()
-    })
+    },[])
 
     return todos
 }
@@ -50,7 +51,7 @@ export function useProjects(todos){
         })
 
         return () => unsubscribe()
-    })
+    },[])
 
     return projects
 }

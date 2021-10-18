@@ -19,7 +19,7 @@ function EditTodo(){
         },
         {
             id: 3,
-            name: "",
+            name: "other",
             numOfTodos: 1
         },
 

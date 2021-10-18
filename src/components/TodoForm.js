@@ -1,6 +1,8 @@
 import React from 'react'
 import { Bell, CalendarDay, Clock, Palette, X } from 'react-bootstrap-icons';
 import DateTimePicker from "@mui/lab/DateTimePicker";
+import DatePicker from "@mui/lab/DatePicker";
+import TimePicker from "@mui/lab/TimePicker";
 import DateFNSUtils from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { TextField } from "@material-ui/core";
@@ -11,6 +13,8 @@ function TodoForm ({
     heading = false,
     text, setText,
     value, setValue,
+    day, setDay,
+    time, setTime,
     todoProject, setTodoProject,
     projects,
     showButtons = false,
@@ -40,20 +44,26 @@ function TodoForm ({
             <div className="pick-day">
                 <div className="title">
                     <CalendarDay />
-                    <p>Choose a day</p>
+                    <p>Choose a day |</p>
+                </div>
+                <DatePicker
+                    value={day}
+                    onChange={setDay}
+                    renderInput={(props) => (
+                        <TextField {...props} helperText="valid mask" />
+                    )}
+                />
+            </div>
+            <div className="pick-time">
+                <div className="title">
                     <Clock />
                     <p>Choose time</p>
                 </div>
-                <DateTimePicker
-                    value={value}
-                    onChange={(newValue) => {
-                        console.log(newValue.toUTCString());
-                        setValue(newValue);
-                    }}
-                    renderInput={(startProps) => (
-                        <React.Fragment>
-                        <TextField {...startProps} />
-                        </React.Fragment>
+                <TimePicker
+                    value={time}
+                    onChange={setTime}
+                    renderInput={(props) => (
+                        <TextField {...props} helperText="valid mask" />
                     )}
                 />
             </div>
