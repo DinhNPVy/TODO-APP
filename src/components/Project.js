@@ -4,6 +4,7 @@ import Modal from './Modal'
 import RenameProject from './RenameProject'
 import {TodoContext} from '../context'
 import firebase from '../firebase'
+import { useTransition, useSpring, animated } from '@react-spring/web'
 
 function Project({project, edit}){
     const {defaultProject, selectedProject, setSelectedProject} = useContext(TodoContext)
@@ -34,8 +35,20 @@ function Project({project, edit}){
                 }
             })
     }
+
+      // ANIMATION
+      const fadeIn = useSpring({
+        from : { marginTop : '-12px', opacity : 0 },
+        to : { marginTop : '0px', opacity : 1}
+    })
+    const btnTransitions = useTransition(edit, {
+        from : { opacity : 0, right : '-20px' },
+        enter : { opacity : 1, right : '0px' },
+        leave : { opacity : 0, right : '-20px' }
+    })
+
     return (
-        <div className='Project'>
+        <animated.div style={fadeIn} className='Project'>
             <div className="name"
                  onClick={() => setSelectedProject(project.name)}
             >
@@ -43,28 +56,30 @@ function Project({project, edit}){
             </div>
             <div className="btns">
                 {
-                    edit ?
-                    <div className="edit-delete">
+                    btnTransitions((props, editProject) => 
+                    editProject ?
+                    <animated.div style={props} className="edit-delete">
                         <span className="edit" onClick={() => setShowModal(true)}>
                             <Pencil size="14"/>
                         </span>
                         <span className="delete" onClick={() => deleteProject(project)}>
                             <XCircle size="14" />
                         </span>
-                    </div>
+                    </animated.div>
                     :
-                    Project.numOfTodos === 0 ?
+                    project.numOfTodos === 0 ?
                     ""
                     :
-                    <div className="total-todos">
+                    <animated.div style={props} className="total-todos">
                         {project.munOfTodos}
-                    </div>
+                    </animated.div>
+                    )
                 }
             </div>
             <Modal showModal={showModal} setShowModal={setShowModal}>
                 <RenameProject project={project} setShowModal={setShowModal}/>
             </Modal>
-        </div>
+        </animated.div>
     )
 }
 
